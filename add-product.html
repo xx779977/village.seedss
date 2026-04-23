@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नवीन उत्पादन जोडा - Village Seeds</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            min-height: 100vh;
+            padding-top: 80px;
+            
+        }
+        
+        .add-product-header {
+            background: linear-gradient(135deg, #4caf50 0%, #2d5016 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .product-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+        
+        .section-icon {
+            font-size: 3rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d5016;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .add-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #2d5016 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+        
+        .preview-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px dashed #4caf50;
+        }
+        
+        .preview-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #4caf50;
+            color: #4caf50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #4caf50;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .input-group input, .input-group select, .input-group textarea {
+            border: 2px solid #e8f5e9;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+            outline: none;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #4caf50 0%, #2d5016 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="add-product-header">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-plus-circle me-3"></i>नवीन उत्पादन जोडा
+                </h1>
+                <p class="lead">Village Seeds मध्ये तुमचे उत्पादन जोडा</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Add Photo Section -->
+            <div class="col-lg-6">
+                <div class="product-section">
+                    <div class="section-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="section-title">फोटो जोडा</h3>
+                    <div class="input-group">
+                        <label>फोटो URL</label>
+                        <input type="url" id="photoUrl" placeholder="फोटोचा URL टाइप करा...">
+                    </div>
+                    <div class="input-group">
+                        <label>किंवा फाइल निवडा</label>
+                        <input type="file" id="photoFile" accept="image/*" onchange="previewPhoto(event)">
+                    </div>
+                    <button class="add-btn" onclick="addPhoto()">
+                        <i class="fas fa-upload me-2"></i>फोटो जोडा
+                    </button>
+                    <div class="preview-section" id="photoPreview" style="display: none;">
+                        <h5>फोटो पूर्वावलोकन</h5>
+                        <img id="previewImage" class="preview-image" src="" alt="Product preview">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Price Section -->
+            <div class="col-lg-6">
+                <div class="product-section">
+                    <div class="section-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3 class="section-title">किंमत निर्धारित करा</h3>
+                    <div class="input-group">
+                        <label>उत्पादनाचे नाव</label>
+                        <input type="text" id="productName" placeholder="उत्पादनाचे नाव टाइप करा...">
+                    </div>
+                    <div class="input-group">
+                        <label>किंमत प्रति एकक</label>
+                        <input type="text" id="productPrice" placeholder="उदा. ₹50 किलो">
+                    </div>
+                    <div class="input-group">
+                        <label>मोजणेचे एकक</label>
+                        <select id="priceUnit">
+                            <option value="किलो">किलो</option>
+                            <option value="किलोग्राम">किलोग्राम</option>
+                            <option value="डझन">डझन</option>
+                            <option value="पीस">पीस</option>
+                            <option value="बोरी">बोरी</option>
+                        </select>
+                    </div>
+                    <button class="add-btn" onclick="addPrice()">
+                        <i class="fas fa-check me-2"></i>किंमत जोडा
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Weight Section -->
+            <div class="col-lg-6">
+                <div class="product-section">
+                    <div class="section-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <h3 class="section-title">वजन निर्धारित करा</h3>
+                    <div class="input-group">
+                        <label>एकूण वजन</label>
+                        <input type="text" id="totalWeight" placeholder="उदा. 100 किलो">
+                    </div>
+                    <div class="input-group">
+                        <label>वजनाचे एकक</label>
+                        <select id="weightUnit">
+                            <option value="किलो">किलो</option>
+                            <option value="ग्रॅम">ग्रॅम</option>
+                            <option value="टन">टन</option>
+                            <option value="क्विंटल">क्विंटल</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>न्यूनतम ऑर्डर</label>
+                        <input type="text" id="minOrder" placeholder="उदा. 5 किलो">
+                    </div>
+                    <button class="add-btn" onclick="addWeight()">
+                        <i class="fas fa-check me-2"></i>वजन जोडा
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Quantity Section -->
+            <div class="col-lg-6">
+                <div class="product-section">
+                    <div class="section-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3 class="section-title">प्रमाण निर्धारित करा</h3>
+                    <div class="input-group">
+                        <label>उपलब्ध प्रमाण</label>
+                        <input type="text" id="availableQuantity" placeholder="उदा. 50 किलो">
+                    </div>
+                    <div class="input-group">
+                        <label>प्रमाणाचे एकक</label>
+                        <select id="quantityUnit">
+                            <option value="किलो">किलो</option>
+                            <option value="डझन">डझन</option>
+                            <option value="पीस">पीस</option>
+                            <option value="बोरी">बोरी</option>
+                            <option value="बॅग">बॅग</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>श्रेणी</label>
+                        <select id="productCategory">
+                            <option value="">श्रेणी निवडा</option>
+                            <option value="vegetables">भाज्या</option>
+                            <option value="fruits">फळे</option>
+                            <option value="grains">धान्य</option>
+                            <option value="spices">मसाले</option>
+                        </select>
+                    </div>
+                    <button class="add-btn" onclick="addQuantity()">
+                        <i class="fas fa-check me-2"></i>प्रमाण जोडा
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <h4><i class="fas fa-check-circle me-2"></i>उत्पादन यशस्वीरित्या जोडले!</h4>
+            <p>तुमचे उत्पादन Village Seeds वर जोडले गेले आहे.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let newProduct = {
+            photo: '',
+            name: '',
+            price: '',
+            weight: '',
+            quantity: '',
+            category: ''
+        };
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        async function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'block';
+                    newProduct.photo = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function addPhoto() {
+            const photoUrl = document.getElementById('photoUrl').value;
+            if (photoUrl) {
+                document.getElementById('previewImage').src = photoUrl;
+                document.getElementById('photoPreview').style.display = 'block';
+                newProduct.photo = photoUrl;
+                alert('फोटो यशस्वीरित्या जोडला गेला!');
+            } else if (newProduct.photo) {
+                alert('फोटो आधीच जोडला गेला आहे!');
+            } else {
+                alert('कृपया फोटो URL टाइप करा किंवा फाइल निवडा!');
+            }
+        }
+
+        async function addPrice() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const unit = document.getElementById('priceUnit').value;
+
+            if (!name || !price) {
+                alert('कृपया उत्पादनाचे नाव आणि किंमत टाइप करा!');
+                return;
+            }
+
+            newProduct.name = name;
+            newProduct.price = `₹${price} ${unit}`;
+            
+            // Check if server is running
+            try {
+                const testResponse = await fetch(`${API_BASE}/products`);
+                if (!testResponse.ok) {
+                    throw new Error('Server not responding');
+                }
+            } catch (error) {
+                console.error('Server connection error:', error);
+                alert('सर्व्हर कनेक्ट करण्यात नाही. कृपया सर्व्हर सुरू करा:\n\n1. टर्मिनल उघडा\n2. "npm start" टाइप करा\n3. सर्व्हर सुरू होईपर्यंत थांबा\n4. पुन्हा प्रयत्न करा');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        price: newProduct.price,
+                        category: 'vegetables',
+                        farmer: 'abhinav ashok lawande',
+                        village: 'पुणे',
+                        image: newProduct.photo || 'https://www.istockphoto.com/search/2/image-film?phrase=vegetables&tracked_gsrp_landing=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fvegetables',
+                        description: 'गुणवत्तेचे उत्पादन',
+                        quantity: '0 किलो',
+                        badge: 'नवीन'
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`किंमत यशस्वीरित्या जोडली:\n\nउत्पादन: ${result.name}\nकिंमत: ${result.price}\n\nडेटाबेसमध्ये जतन केले गेले आहे!`);
+                } else {
+                    const errorData = await response.json();
+                    alert(`किंमत जोडण्यात नाही:\n\nत्रुटी: ${errorData.error || 'अज्ञात त्रुटी'}\n\nकृपया पुन्हा प्रयत्न करा.`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`किंमत जोडण्यात नाही:\n\nत्रुटी: ${error.message}\n\nकृपया:\n1. सर्व्हर चालू आहे याची खात्री करा\n2. इंटरनेट कनेक्शन तपासा\n3. पुन्हा प्रयत्न करा`);
+            }
+        }
+
+        async function addWeight() {
+            const totalWeight = document.getElementById('totalWeight').value;
+            const unit = document.getElementById('weightUnit').value;
+            const minOrder = document.getElementById('minOrder').value;
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const priceUnit = document.getElementById('priceUnit').value;
+
+            if (!totalWeight) {
+                alert('Please enter total weight!');
+                return;
+            }
+
+            if (!productName) {
+                alert('Please enter product name!');
+                return;
+            }
+
+            // Get current user from localStorage or use default
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // Create complete product object for MongoDB
+            const completeProduct = {
+                name: productName,
+                category: newProduct.category || 'vegetables',
+                farmer: currentUser?.name || 'New Farmer',
+                village: currentUser?.village || 'Maharashtra',
+                price: productPrice ? `Rs.${productPrice} per ${priceUnit}` : 'Rs.0',
+                quantity: `${totalWeight} ${unit} available`,
+                badge: '', // Empty string for MongoDB enum
+                image: newProduct.photo || `https://picsum.photos/seed/${productName}/300/200`,
+                description: 'Fresh quality product directly from farm',
+                totalQuantity: `${totalWeight} ${unit}`,
+                minOrder: minOrder || `1 ${unit}`,
+                deliveryTime: '2-3 days',
+                farmerDetails: {
+                    fullName: currentUser?.name || 'New Farmer',
+                    mobile: currentUser?.mobile || '+918329966445',
+                    village: currentUser?.village || 'Maharashtra',
+                    district: currentUser?.village || 'Maharashtra'
+                },
+                // farmerId: currentUser?.id || 1, // Commented out to avoid ObjectId validation
+                isActive: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(completeProduct)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`Product added successfully to database!\n\nName: ${productName}\nPrice: ${productPrice} per ${priceUnit}\nQuantity: ${totalWeight} ${unit}\n\nProduct saved to MongoDB!`);
+                    
+                    // Clear form and redirect to main page
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productPrice').value = '';
+                    document.getElementById('totalWeight').value = '';
+                    document.getElementById('minOrder').value = '';
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.getElementById('previewImage').src = '';
+                    
+                    // Reset newProduct object
+                    newProduct = {
+                        photo: '',
+                        name: '',
+                        price: '',
+                        weight: '',
+                        quantity: '',
+                        category: ''
+                    };
+                    
+                    // Redirect to main page
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to add product: ' + (errorData.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to add product. Please try again.');
+            }
+        }
+
+        async function addQuantity() {
+            const quantity = document.getElementById('availableQuantity').value;
+            const unit = document.getElementById('quantityUnit').value;
+            const category = document.getElementById('productCategory').value;
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const priceUnit = document.getElementById('priceUnit').value;
+
+            if (!quantity || !category) {
+                alert('Please select available quantity and category!');
+                return;
+            }
+
+            if (!productName) {
+                alert('Please enter product name!');
+                return;
+            }
+
+            // Get current user from localStorage or use default
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // Create complete product object for MongoDB
+            const completeProduct = {
+                name: productName,
+                category: category,
+                farmer: currentUser?.name || 'New Farmer',
+                village: currentUser?.village || 'Maharashtra',
+                price: productPrice ? `Rs.${productPrice} per ${priceUnit}` : 'Rs.0',
+                quantity: `${quantity} ${unit} available`,
+                badge: '', // Empty string for MongoDB enum
+                image: newProduct.photo || `https://picsum.photos/seed/${productName}/300/200`,
+                description: 'Fresh quality product directly from farm',
+                totalQuantity: `${quantity} ${unit}`,
+                minOrder: `1 ${unit}`,
+                deliveryTime: '2-3 days',
+                farmerDetails: {
+                    fullName: currentUser?.name || 'New Farmer',
+                    mobile: currentUser?.mobile || '+918329966445',
+                    village: currentUser?.village || 'Maharashtra',
+                    district: currentUser?.village || 'Maharashtra'
+                },
+                // farmerId: currentUser?.id || 1, // Commented out to avoid ObjectId validation
+                isActive: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(completeProduct)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`Product added successfully to database!\n\nName: ${productName}\nCategory: ${category}\nQuantity: ${quantity} ${unit}\n\nProduct saved to MongoDB!`);
+                    
+                    // Clear form and redirect to main page
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productPrice').value = '';
+                    document.getElementById('availableQuantity').value = '';
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.getElementById('previewImage').src = '';
+                    
+                    // Reset newProduct object
+                    newProduct = {
+                        photo: '',
+                        name: '',
+                        price: '',
+                        weight: '',
+                        quantity: '',
+                        category: ''
+                    };
+                    
+                    // Redirect to main page
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to add product: ' + (errorData.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to add product. Please try again.');
+            }
+        }
+
+        // Check if all sections are completed
+        setInterval(() => {
+            if (newProduct.photo && newProduct.name && newProduct.price && newProduct.weight && newProduct.quantity) {
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('photoUrl').value = '';
+                    document.getElementById('productName').value = '';
+                    document.getElementById('productPrice').value = '';
+                    document.getElementById('totalWeight').value = '';
+                    document.getElementById('minOrder').value = '';
+                    document.getElementById('availableQuantity').value = '';
+                    document.getElementById('productCategory').value = '';
+                    
+                    // Reset new product object
+                    newProduct = {
+                        photo: '',
+                        name: '',
+                        price: '',
+                        weight: '',
+                        quantity: '',
+                        category: ''
+                    };
+                    
+                    document.getElementById('photoPreview').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
